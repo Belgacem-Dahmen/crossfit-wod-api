@@ -1,11 +1,11 @@
 const express = require('express');
-const v1Router = require("./v1/routes");
+const workoutRoutes = require('./v1/routes/workoutRoutes')
 const app = express();
-const PORT = process.env.PORT || 3000 ;
+const PORT = process.env.PORT || 3000;
+const bodyParser = require("body-parser");
 
-
-
-app.use("/api/v1", v1Router);
+app.use(bodyParser.json());
+app.use("/api/v1/workouts", workoutRoutes);
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
