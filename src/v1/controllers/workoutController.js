@@ -6,14 +6,38 @@ const getAllWorkouts = (req,res) => {
     res.send({ status: "OK", data: allWorkouts })
 }
 
-const getWorkout = (req,res) => {
-    const workout = workoutService.getOneWorkout()
-    res.send('get one workout')
+const getWorkout = (req, res) => {
+    const { id } = req.params
+    const workout = workoutService.getOneWorkout(id)
+        res.send({ status: "OK", data: workout })
+    
+
 }
 const createWorkout = (req,res) => {
-    const workout = workoutService.createWorkout()
-    res.send('create a workout')
-}
+    const { body } =  req ; 
+        if (
+            !body.name || 
+            !body.mode ||
+            !body.equipment ||
+            !body.exercises ||
+            !body.trainerTips
+        ) { res.status(404).send({message : "add some values"})} 
+        else {
+            const newWorkout = {
+                name : body.name,
+                mode : body.mode,
+                equipment : body.equipment,
+                exercises : body.exercises,
+                trainerTips : body.trainerTips
+            }
+            const workout = workoutService.createNewWorkout(newWorkout)
+            res.status(201).send({ status: "OK", data: workout });
+        }
+        
+    }
+
+    
+
 
 const deleteWorkout = (req,res) => {
     const workout = workoutService.deleteWorkout()
